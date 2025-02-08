@@ -32,7 +32,6 @@ if os.path.exists(configuration_filename) and os.path.getsize(configuration_file
         print("[ERROR]: The file contains invalid JSON.")
         exit(-1)
 else:
-    print("EUH")
     print("[ERROR]: The file is empty or does not exist.")
     exit(-1)
 
@@ -53,6 +52,15 @@ else:
 print(stream_script_path)
 
 ffmpeg_process = None  # Pour stocker l'instance du processus FFmpeg
+# _______________________________________________________
+# Create working directory
+
+if not os.path.exists(stream_output_directory):
+    os.makedirs(stream_output_directory)
+
+if not os.path.exists(images_output_directory):
+    os.makedirs(images_output_directory)
+
 # _______________________________________________________
 # SERVER STREAMING HTTP
 app = Flask(__name__)
