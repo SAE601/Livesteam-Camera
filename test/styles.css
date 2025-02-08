@@ -1,0 +1,26 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+  }
+
+  .container {
+    text-align: center;
+  }
+
+  video {
+    width: 100%;
+    max-width: 800px;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+  }
+
+  h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }

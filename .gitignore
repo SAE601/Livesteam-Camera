@@ -1,0 +1,6 @@
+images/*
+
+stream/*
+
+!images/.gitignore
+!stream/.gitignore

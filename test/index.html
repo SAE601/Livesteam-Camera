@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css"/>
+  <title>TEST - Flux video</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Flux vidéo</h1>
+    <video id="videoElement" controls autoplay>
+      <source src="http://localhost:5000/livestream/stream/video.m3u8" type="application/x-mpegURL">
+    </video>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script src="stream.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+    "video_device": "HD Webcam",
+    "base_directory": ".",
+    "stream_output_file": "stream/video.m3u8",
+    "images_output_directory": "images",
+    "stream_output_directory": "stream",
+
+    "image_period": 100,
+
+    "script": {
+        "win": {
+            "stream": "stream.bat",
+            "image": "acquireimg.bat"
+        },
+        "linux": {
+            "stream": "stream.sh",
+            "image": "acquireimg.sh"
+        }
+    }
+}
