@@ -10,10 +10,9 @@ import json
 
 unix_like_flag = sys.platform.startswith('linux')
 
-# Vérifier si l'OS est Linux
+# Verifier si l'OS est Linux
 if unix_like_flag:
-    print("[ERROR] The scripts are not implemented for Linux.")
-    sys.exit(1)  # Arrêter l'exécution du programme avec un code d'erreur
+    print("INFO] The script is running on a UNIX-like system.")
 else:
     print("[INFO] The script is running on a non-Linux system.")
 
@@ -35,20 +34,19 @@ else:
     print("[ERROR]: The file is empty or does not exist.")
     exit(-1)
 
-
 video_device = configJSON["video_device"]
-stream_output_file = f"{configJSON["base_directory"]}/{configJSON["stream_output_file"]}"
-stream_output_directory = f"{configJSON["base_directory"]}/{configJSON["stream_output_directory"]}"
-images_output_directory = f"{configJSON["base_directory"]}/{configJSON["images_output_directory"]}"
+stream_output_file = f'{configJSON["base_directory"]}/{configJSON["stream_output_file"]}'
+stream_output_directory = f'{configJSON["base_directory"]}/{configJSON["stream_output_directory"]}'
+images_output_directory = f'{configJSON["base_directory"]}/{configJSON["images_output_directory"]}'
 
 image_period = configJSON["image_period"]
 
 if unix_like_flag:
-    stream_script_path = f"{configJSON["base_directory"]}/{configJSON["script"]["linux"]["stream"]}"
-    image_script_path = f"{configJSON["base_directory"]}/{configJSON["script"]["linux"]["image"]}"
+    stream_script_path = f'{configJSON["base_directory"]}/{configJSON["script"]["linux"]["stream"]}'
+    image_script_path = f'{configJSON["base_directory"]}/{configJSON["script"]["linux"]["image"]}'
 else:
-    stream_script_path = f"{configJSON["base_directory"]}\\{configJSON["script"]["win"]["stream"]}"
-    image_script_path = f"{configJSON["base_directory"]}\\{configJSON["script"]["win"]["image"]}"
+    stream_script_path = f'{configJSON["base_directory"]}\\{configJSON["script"]["win"]["stream"]}'
+    image_script_path = f'{configJSON["base_directory"]}\\{configJSON["script"]["win"]["image"]}'
 print(stream_script_path)
 
 ffmpeg_process = None  # Pour stocker l'instance du processus FFmpeg
@@ -65,7 +63,7 @@ if not os.path.exists(images_output_directory):
 # SERVER STREAMING HTTP
 app = Flask(__name__)
 
-# Activer CORS pour toutes les origines pour permettre d'accéder au stream
+# Activer CORS pour toutes les origines pour permettre d'acceder au stream
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route('/livestream/stream/<path:filename>')
@@ -91,21 +89,24 @@ def start_ffmpeg_stream():
 # Fonction pour capturer une image toutes les x secondes
 def capture_image():
     while True:
-        # Récupérer le dernier fichier .ts généré pour capturer l'image
+        # Recuperer le dernier fichier .ts genere pour capturer l'image
         ts_files = [f for f in os.listdir(stream_output_directory) if f.endswith('.ts')]
         if ts_files:
-            # Trouver le fichier .ts le plus récent
-            ts_file = max(ts_files, key=lambda f: os.path.getmtime(f"{stream_output_directory}\\{f}"))
+            # Trouver le fichier .ts le plus recent
+            ts_file = max(ts_files, key=lambda f: os.path.getmtime(f'{stream_output_directory}/{f}'))
 
-            # Générer un nom d'image avec timestamp
+            # Generer un nom d'image avec timestamp
             timestamp = time.strftime('%Y%m%d_%H%M%S')
             output_image = f'{images_output_directory}/output_{timestamp}.png'
 
-            # Exécuter la commande FFmpeg pour capturer l'image
-            subprocess.run(f"{image_script_path} {f"{stream_output_directory}/{ts_file}"} {output_image}"
-                           , stdout=subprocess.PIPE
-                           , stderr=subprocess.PIPE)
-            print(f"[INFO] Image capturée et sauvegardee sous {output_image}")
+            # Executer la commande FFmpeg pour capturer l'image
+            acquire_img_command = [
+                image_script_path,
+                stream_output_directory + "/" + ts_file,
+                output_image
+            ]
+            subprocess.Popen(acquire_img_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            print(f'[INFO] Image capturee et sauvegardee sous {output_image}')
 
         time.sleep(image_period)
 
@@ -124,10 +125,10 @@ if __name__ == '__main__':
     # Attacher le signal SIGINT (CTRL+C) pour fermer proprement FFmpeg
     signal.signal(signal.SIGINT, shutdown_ffmpeg)
 
-    # Démarrer FFmpeg en mode daemon
+    # Demarrer FFmpeg en mode daemon
     start_ffmpeg_stream()
 
-    # Lancer la capture d'images dans un thread séparé
+    # Lancer la capture d'images dans un thread separe
     image_capture_thread = threading.Thread(target=capture_image, daemon=True)
     image_capture_thread.start()
 

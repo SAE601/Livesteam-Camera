@@ -48,8 +48,20 @@ Ce code a pour objectif de fournir un serveur de stream vidéo clé en main. Il 
    - La valeur `video_device` doit être correctement définie et elle doit pointer sur un périphérique vidéo.
    - Pour lister les périphériques vidéo disponibles, exécutez la commande suivante :
 
+    **Windows**:
+
      ```sh
      ffmpeg -list_devices true -f dshow -i dummy
+     ```
+
+    **Linux**:
+
+     ```sh
+     sudo apt install v4l-utils
+     ```
+
+     ```sh
+     v4l2-ctl --list-devices
      ```
 
    - La valeur `base_directory` est uniquement nécessaire si les dossiers sources ne sont pas dans le même répertoire que le serveur.
