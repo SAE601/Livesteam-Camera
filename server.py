@@ -105,7 +105,7 @@ def capture_image():
                 stream_output_directory + "/" + ts_file,
                 output_image
             ]
-            subprocess.Popen(acquire_img_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            subprocess.Popen(acquire_img_command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             print(f'[INFO] Image capturee et sauvegardee sous {output_image}')
 
         time.sleep(image_period)
