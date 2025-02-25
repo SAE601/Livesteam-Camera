@@ -35,7 +35,7 @@ Ce code a pour objectif de fournir un serveur de stream vidéo clé en main. Il 
 2. **Installer FFmpeg** :
 
    - Assurez-vous que FFmpeg est installé et accessible via la ligne de commande.
-   - Sous Windows, vous pouvez télécharger FFmpeg depuis [ffmpeg.org](https://ffmpeg.org/), puis ajouter le chemin du binaire à la variable d'environnement `PATH`.
+   - Sous Windows, vous pouvez télécharger FFmpeg depuis [ffmpeg.org](https://github.com/BtbN/FFmpeg-Builds/releases), puis ajouter le chemin du binaire à la variable d'environnement `PATH`.
    - Sous Linux, installez-le avec :
 
      ```sh

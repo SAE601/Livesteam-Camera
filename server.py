@@ -97,7 +97,7 @@ def capture_image():
 
             # Generer un nom d'image avec timestamp
             timestamp = time.strftime('%Y%m%d_%H%M%S')
-            output_image = f'{images_output_directory}/output_{timestamp}.png'
+            output_image = f'{images_output_directory}/output_{timestamp}.jpg'
 
             # Executer la commande FFmpeg pour capturer l'image
             acquire_img_command = [

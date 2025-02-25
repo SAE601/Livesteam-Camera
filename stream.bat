@@ -22,6 +22,6 @@ echo [INFO] Video device: %VIDEO_STREAM%
 echo [INFO] Output file: %OUTPUT_FILE%
 
 REM Run FFmpeg for streaming
-ffmpeg -f dshow -i video="%VIDEO_STREAM%" -g %KEY_FRAME% -c:v libx264 -preset ultrafast -sc_threshold 0 -f hls -hls_time 2 -hls_list_size 2 -hls_flags delete_segments "%OUTPUT_FILE%"
+ffmpeg -f dshow -i video="%VIDEO_STREAM%" -g %KEY_FRAME% -c:v libx264 -preset ultrafast -sc_threshold 0 -f hls -hls_time 1 -hls_list_size 2 -hls_flags delete_segments "%OUTPUT_FILE%"
 
 exit /b
