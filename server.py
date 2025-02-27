@@ -91,6 +91,7 @@ def capture_image():
     while True:
         # Recuperer le dernier fichier .ts genere pour capturer l'image
         ts_files = [f for f in os.listdir(stream_output_directory) if f.endswith('.ts')]
+
         if ts_files:
             # Trouver le fichier .ts le plus recent
             ts_file = max(ts_files, key=lambda f: os.path.getmtime(f'{stream_output_directory}/{f}'))
@@ -109,23 +110,23 @@ def capture_image():
             subprocess.Popen(acquire_img_command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             print(f'[INFO] Image capturee et sauvegardee sous {output_bmp}')
         
-        time.sleep(1)
+            time.sleep(1)
 
-        if os.path.exists(output_bmp):
-            compress_command = [
-                "ffmpeg",
-                "-i", output_bmp,  # Fichier d'entrée
-                "-q:v", "15",       # Qualité (1 = meilleure, 31 = pire)
-                output_jpg         # Fichier de sortie
-            ]
-            subprocess.run(compress_command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            print(f'[INFO] Image compressée et sauvegardée sous {output_jpg}')
+            if os.path.exists(output_bmp):
+                compress_command = [
+                    "ffmpeg",
+                    "-i", output_bmp,  # Fichier d'entrée
+                    "-q:v", "15",       # Qualité (1 = meilleure, 31 = pire)
+                    output_jpg         # Fichier de sortie
+                ]
+                subprocess.run(compress_command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                print(f'[INFO] Image compressée et sauvegardée sous {output_jpg}')
 
-            # Supprimer le fichier BMP après compression (optionnel)
-            os.remove(output_bmp)
-            print(f'[INFO] Fichier BMP supprimé : {output_bmp}')
-        else:
-            print(f'[ERREUR] Le fichier BMP n\'a pas été créé : {output_bmp}')
+                # Supprimer le fichier BMP après compression (optionnel)
+                os.remove(output_bmp)
+                print(f'[INFO] Fichier BMP supprimé : {output_bmp}')
+            else:
+                print(f'[ERREUR] Le fichier BMP n\'a pas été créé : {output_bmp}')
 
         time.sleep(image_period)
 
