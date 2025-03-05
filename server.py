@@ -8,6 +8,8 @@ import threading
 import signal
 import json
 
+import mysql.connector
+
 
 
 unix_like_flag = sys.platform.startswith('linux')
@@ -79,6 +81,38 @@ if not os.path.exists(images_output_directory):
     os.makedirs(images_output_directory)
 
 # _______________________________________________________
+# Fonction pour enregistrer l'image dans la base de données
+def save_image_to_db(pathPicture, takenDate):
+    try:
+        # Connexion à la base de données
+        conn = mysql.connector.connect(
+            host=configJSON["bdd"]["host"],
+            user=configJSON["bdd"]["user"],
+            password=configJSON["bdd"]["password"],
+            database=configJSON["bdd"]["database"],
+        )
+        cursor = conn.cursor()
+
+        # Requête SQL pour insérer l'image
+        query = "INSERT INTO Picture (pathPicture, takenDate) VALUES (%s, %s)"
+        values = (pathPicture, takenDate)
+
+        # Exécution de la requête
+        cursor.execute(query, values)
+        conn.commit()  # Valider la transaction
+
+        print(f"[INFO] Image enregistrée dans la base de données : {pathPicture}")
+
+    except mysql.connector.Error as err:
+        print(f"[ERREUR] Erreur lors de l'insertion dans la base de données : {err}")
+
+    finally:
+        # Fermer la connexion
+        if conn.is_connected():
+            cursor.close()
+            conn.close()
+
+# _______________________________________________________
 # SERVER STREAMING HTTP
 app = Flask(__name__)
 
@@ -102,7 +136,7 @@ def start_ffmpeg_stream():
         video_device,
         stream_output_file
     ]
-    
+
     stdoutput_type = sys.stdout.buffer
     ffmpeg_process = subprocess.Popen(ffmpeg_command, stdout=stdoutput_type, stderr=stdoutput_type)
 
@@ -128,6 +162,9 @@ def capture_image():
             ]
             subprocess.Popen(acquire_img_command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             print(f'[INFO] Image capturee et sauvegardee sous {output_img}')
+
+            # Enregistrer l'image dans la base de données
+            save_image_to_db(output_img, time.strftime('%Y-%m-%d %H:%M:%S'))
 
         time.sleep(image_period)
 

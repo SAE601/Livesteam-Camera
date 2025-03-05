@@ -7,7 +7,12 @@
     "stream_output_directory": "stream",
 
     "image_period": 100,
-
+    "db": {
+        "host": "localhost",
+        "user": "optiplant",
+        "password": "optiplant",
+        "database": "optiplant"
+    },
     "script": {
         "win": {
             "stream": "stream.bat",
