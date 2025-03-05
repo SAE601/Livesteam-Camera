@@ -118,35 +118,16 @@ def capture_image():
 
             # Generer un nom d'image avec timestamp
             timestamp = time.strftime('%Y%m%d_%H%M%S')
-            output_bmp = os.path.join(images_output_directory, f'output_{timestamp}.BMP')
-            output_jpg = os.path.join(images_output_directory, f'output_{timestamp}.jpg')
+            output_img = os.path.join(images_output_directory, f'output_{timestamp}.jpg')
 
             # Executer la commande FFmpeg pour capturer l'image
             acquire_img_command = [
                 image_script_path,
                 stream_output_directory + "/" + ts_file,
-                output_bmp
+                output_img
             ]
             subprocess.Popen(acquire_img_command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            print(f'[INFO] Image capturee et sauvegardee sous {output_bmp}')
-        
-            time.sleep(1)
-
-            if os.path.exists(output_bmp):
-                compress_command = [
-                    "ffmpeg",
-                    "-i", output_bmp,  # Fichier d'entrée
-                    "-q:v", "15",       # Qualité (1 = meilleure, 31 = pire)
-                    output_jpg         # Fichier de sortie
-                ]
-                subprocess.run(compress_command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-                print(f'[INFO] Image compressée et sauvegardée sous {output_jpg}')
-
-                # Supprimer le fichier BMP après compression (optionnel)
-                os.remove(output_bmp)
-                print(f'[INFO] Fichier BMP supprimé : {output_bmp}')
-            else:
-                print(f'[ERREUR] Le fichier BMP n\'a pas été créé : {output_bmp}')
+            print(f'[INFO] Image capturee et sauvegardee sous {output_img}')
 
         time.sleep(image_period)
 
