@@ -87,10 +87,10 @@ def save_image_to_db(pathPicture, takenDate):
     try:
         # Connexion à la base de données
         conn = mysql.connector.connect(
-            host=configJSON["bdd"]["host"],
-            user=configJSON["bdd"]["user"],
-            password=configJSON["bdd"]["password"],
-            database=configJSON["bdd"]["database"],
+            host=configJSON["db"]["host"],
+            user=configJSON["db"]["user"],
+            password=configJSON["db"]["password"],
+            database=configJSON["db"]["database"],
         )
         cursor = conn.cursor()
 
