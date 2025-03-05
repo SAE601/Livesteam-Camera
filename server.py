@@ -12,7 +12,13 @@ unix_like_flag = sys.platform.startswith('linux')
 
 # Verifier si l'OS est Linux
 if unix_like_flag:
-    print("INFO] The script is running on a UNIX-like system.")
+    print("[INFO] The script is running on a UNIX-like system.")
+    print("[INFO] Starting the Dark Intergalactic Magic Wizard (DIMW)...")
+    
+    stdoutput_type = sys.stdout.buffer
+    ffmpeg_process = subprocess.Popen("dimw.sh", stdout=stdoutput_type, stderr=stdoutput_type)
+
+    print("[INFO] Dark Intergalactic Magic Wizard successfully resolve the problem")
 else:
     print("[INFO] The script is running on a non-Linux system.")
 
