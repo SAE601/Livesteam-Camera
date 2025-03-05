@@ -1,5 +1,6 @@
 {
     "video_device": "/dev/video0",
+    "video_format": "640x480",
     "base_directory": ".",
     "stream_output_file": "stream/video.m3u8",
     "images_output_directory": "images",
@@ -14,7 +15,8 @@
         },
         "linux": {
             "stream": "stream.sh",
-            "image": "acquireimg.sh"
+            "image": "acquireimg.sh",
+            "dimw": "dimw.sh"
         }
     }
 }

@@ -8,19 +8,9 @@ import threading
 import signal
 import json
 
+
+
 unix_like_flag = sys.platform.startswith('linux')
-
-# Verifier si l'OS est Linux
-if unix_like_flag:
-    print("[INFO] The script is running on a UNIX-like system.")
-    print("[INFO] Starting the Dark Intergalactic Magic Wizard (DIMW)...")
-
-    stdoutput_type = sys.stdout.buffer
-    ffmpeg_process = subprocess.run("./dimw.sh", stdout=stdoutput_type, stderr=stdoutput_type)
-
-    print("[INFO] Dark Intergalactic Magic Wizard successfully resolve the problem")
-else:
-    print("[INFO] The script is running on a non-Linux system.")
 
 # _______________________________________________________
 # Configurations variables
@@ -41,19 +31,42 @@ else:
     exit(-1)
 
 video_device = configJSON["video_device"]
+video_format = configJSON["video_format"]
 stream_output_file = f'{configJSON["base_directory"]}/{configJSON["stream_output_file"]}'
 stream_output_directory = f'{configJSON["base_directory"]}/{configJSON["stream_output_directory"]}'
 images_output_directory = f'{configJSON["base_directory"]}/{configJSON["images_output_directory"]}'
 
 image_period = configJSON["image_period"]
 
+
+
 if unix_like_flag:
     stream_script_path = f'{configJSON["base_directory"]}/{configJSON["script"]["linux"]["stream"]}'
     image_script_path = f'{configJSON["base_directory"]}/{configJSON["script"]["linux"]["image"]}'
+    dimw_script_path = f'{configJSON["base_directory"]}/{configJSON["script"]["win"]["dimw"]}'
 else:
     stream_script_path = f'{configJSON["base_directory"]}\\{configJSON["script"]["win"]["stream"]}'
     image_script_path = f'{configJSON["base_directory"]}\\{configJSON["script"]["win"]["image"]}'
-print(stream_script_path)
+
+# _______________________________________________________
+# Adapter le lancement suivant l'OS
+
+# Verifier si l'OS est Linux
+if unix_like_flag:
+    print("[INFO] The script is running on a UNIX-like system.")
+    print("[INFO] Starting the Dark Intergalactic Magic Wizard (DIMW)...")
+
+    stdoutput_type = sys.stdout.buffer
+    dimw_command = [
+        dimw_script_path,
+        video_device,
+        video_format
+    ]
+    ffmpeg_process = subprocess.run(dimw_command, stdout=stdoutput_type, stderr=stdoutput_type)
+
+    print("[INFO] Dark Intergalactic Magic Wizard successfully resolve the problem\n\n")
+else:
+    print("[INFO] The script is running on a non-Linux system.")
 
 ffmpeg_process = None  # Pour stocker l'instance du processus FFmpeg
 # _______________________________________________________
