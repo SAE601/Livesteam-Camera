@@ -1,5 +1,5 @@
 {
-    "video_device": "HD Webcam",
+    "video_device": "/dev/video0",
     "base_directory": ".",
     "stream_output_file": "stream/video.m3u8",
     "images_output_directory": "images",

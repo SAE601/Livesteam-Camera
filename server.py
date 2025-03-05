@@ -16,7 +16,7 @@ if unix_like_flag:
     print("[INFO] Starting the Dark Intergalactic Magic Wizard (DIMW)...")
 
     stdoutput_type = sys.stdout.buffer
-    ffmpeg_process = subprocess.Popen("./dimw.sh", stdout=stdoutput_type, stderr=stdoutput_type)
+    ffmpeg_process = subprocess.run("./dimw.sh", stdout=stdoutput_type, stderr=stdoutput_type)
 
     print("[INFO] Dark Intergalactic Magic Wizard successfully resolve the problem")
 else:
