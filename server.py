@@ -83,6 +83,7 @@ if not os.path.exists(images_output_directory):
 # _______________________________________________________
 # Fonction pour enregistrer l'image dans la base de données
 def save_image_to_db(pathPicture, takenDate):
+    conn = None
     try:
         # Connexion à la base de données
         conn = mysql.connector.connect(
@@ -108,7 +109,7 @@ def save_image_to_db(pathPicture, takenDate):
 
     finally:
         # Fermer la connexion
-        if conn.is_connected():
+        if conn != None and conn.is_connected():
             cursor.close()
             conn.close()
 
