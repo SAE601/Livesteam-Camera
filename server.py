@@ -95,7 +95,7 @@ def save_image_to_db(pathPicture, takenDate):
         cursor = conn.cursor()
 
         # Requête SQL pour insérer l'image
-        query = "INSERT INTO Picture (pathPicture, takenDate) VALUES (%s, %s)"
+        query = "INSERT INTO Pictures (pathPicture, takenDate) VALUES (%s, %s)"
         values = (pathPicture, takenDate)
 
         # Exécution de la requête
