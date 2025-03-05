@@ -43,7 +43,7 @@ image_period = configJSON["image_period"]
 if unix_like_flag:
     stream_script_path = f'{configJSON["base_directory"]}/{configJSON["script"]["linux"]["stream"]}'
     image_script_path = f'{configJSON["base_directory"]}/{configJSON["script"]["linux"]["image"]}'
-    dimw_script_path = f'{configJSON["base_directory"]}/{configJSON["script"]["win"]["dimw"]}'
+    dimw_script_path = f'{configJSON["base_directory"]}/{configJSON["script"]["linux"]["dimw"]}'
 else:
     stream_script_path = f'{configJSON["base_directory"]}\\{configJSON["script"]["win"]["stream"]}'
     image_script_path = f'{configJSON["base_directory"]}\\{configJSON["script"]["win"]["image"]}'
